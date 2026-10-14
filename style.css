@@ -1,159 +1,751 @@
-/* Variáveis CSS - Facilitar o uso de temas para formatação: */
+/* ==========================================================
+   Variáveis CSS - todo o visual (claro e escuro) sai daqui
+   ========================================================== */
 :root {
-    --gradiente-fundo: linear-gradient(135deg, #A8EDEA 0%, #FED6D3 100%);
-    --fundo-cartao: #FFFFFF;
-    --cor-texto: #2D3748;
-    --cor-primaria: #6C5CE7;
-    --cor-primaria-destaque: #5B4B64;
-    --cor-borda: #EDF2F7;
-    --cor-perigo: #FF7675;
-    --cor-concluido: #A0AEC0;
+    --fundo: #E8ECF6;
+    --ponto: #C3CAE0;
+    --superficie: #FFFFFF;
+    --superficie-2: #F3F5FC;
+    --tinta: #1B1B3A;
+    --tinta-suave: #666A8A;
+    --borda: #1B1B3A;
+    --linha: #DCE0F0;
+    --primaria: #6C5CE7;
+    --primaria-forte: #5547CF;
+    --texto-sobre-primaria: #FFFFFF;
+    --perigo: #E5484D;
+    --sucesso: #18A47A;
+    --sombra-dura: #1B1B3A;
+
+    --fonte-titulo: 'Bricolage Grotesque', 'Segoe UI', sans-serif;
+    --fonte-texto: 'Figtree', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Modo escuro (ativado via classe no body */
+/* Modo escuro (ativado via classe no body) */
 body.modo-escuro {
-    --gradiente-fundo: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
-    --fundo-cartao: #1A202C;
-    --cor-texto: #F7FAFC;
-    --cor-borda: #4A5568;
+    --fundo: #101024;
+    --ponto: #24244A;
+    --superficie: #1A1A36;
+    --superficie-2: #23234A;
+    --tinta: #F1F2FA;
+    --tinta-suave: #9C9FC6;
+    --borda: #4D4D86;
+    --linha: #30305E;
+    --primaria: #8C7FFF;
+    --primaria-forte: #A79DFF;
+    --texto-sobre-primaria: #101024;
+    --perigo: #FF6B70;
+    --sucesso: #2DD4A0;
+    --sombra-dura: #05050F;
+    color-scheme: dark; /* deixa o calendário nativo escuro */
 }
 
 * {
-   box-sizing: border-box;
-   margin: 0;
-   padding: 0;
-   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-   transition: background 0.3s, color 0.3s;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    background: var(--gradiente-fundo);
+    font-family: var(--fonte-texto);
+    color: var(--tinta);
+    background-color: var(--fundo);
+    /* grade de pontos, como papel de planejador */
+    background-image: radial-gradient(var(--ponto) 1.3px, transparent 1.3px);
+    background-size: 22px 22px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 24px 16px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
+button,
+input {
+    font-family: inherit;
+    color: inherit;
+}
+
+/* Evita o retângulo de destaque ao tocar em botões no celular */
+button,
+label {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Textos e ícones da interface não são selecionáveis ao clicar;
+   só os campos de digitação continuam permitindo seleção */
+.cartao-aplicacao,
+.dialogo {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+input {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+/* Contorno de foco: aparece só na navegação por teclado (Tab),
+   nunca ao clicar com o mouse ou tocar na tela */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 3px solid var(--primaria);
+    outline-offset: 2px;
+}
+
+.dialogo:focus {
+    outline: none;
+}
+
+/* ==========================================================
+   Cartão principal
+   ========================================================== */
 .cartao-aplicacao {
-    background-color: var(--fundo-cartao);
-    color: var(--cor-texto);
+    background-color: var(--superficie);
     width: 100%;
-    max-width: 420px;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: 520px;
+    border: 2px solid var(--borda);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 8px 8px 0 var(--sombra-dura);
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .cabecalho-aplicacao {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
 }
 
 .cabecalho-aplicacao h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-family: var(--fonte-titulo);
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+.data-hoje {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+    text-transform: capitalize;
 }
 
 .botao-icone {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    color: var(--cor-texto);
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    background: var(--superficie-2);
+    border: 2px solid var(--borda);
+    border-radius: 50%;
+    font-size: 1.05rem;
     cursor: pointer;
+    transition: transform 0.15s, background-color 0.2s;
 }
 
+.botao-icone:hover {
+    transform: rotate(-12deg) scale(1.05);
+}
+
+.acoes-cabecalho {
+    display: flex;
+    gap: 8px;
+}
+
+/* ==========================================================
+   Progresso
+   ========================================================== */
+.progresso {
+    margin-bottom: 24px;
+}
+
+.progresso-texto {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+}
+
+.progresso-texto strong {
+    font-family: var(--fonte-titulo);
+    font-size: 1.1rem;
+    color: var(--tinta);
+}
+
+.progresso-trilho {
+    height: 12px;
+    background: var(--superficie-2);
+    border: 2px solid var(--borda);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progresso-barra {
+    height: 100%;
+    width: 0;
+    background: var(--primaria);
+    border-radius: 999px;
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================
+   Entrada de tarefas
+   ========================================================== */
 .caixa-entrada {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.linha-entrada {
+    display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+}
+
+.linha-opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
 }
 
 input[type="text"] {
     flex: 1;
-    padding: 12px 15px;
-    border: 2px solid var(--cor-borda);
-    border-radius: 12px;
+    min-width: 0;
+    padding: 13px 16px;
+    border: 2px solid var(--linha);
+    border-radius: 14px;
     outline: none;
-    font-size: 0.95rem;
-    background: transparent;
-    color: var(--cor-texto);
+    font-size: 1rem;
+    background: var(--superficie-2);
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+input[type="text"]::placeholder {
+    color: var(--tinta-suave);
 }
 
 input[type="text"]:focus {
-    border-color: var(--cor-primaria);
+    border-color: var(--primaria);
+    background: var(--superficie);
 }
 
 .botao-principal {
-    background: var(--cor-primaria);
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    background: var(--primaria);
+    color: var(--texto-sobre-primaria);
+    border: 2px solid var(--borda);
+    border-radius: 14px;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.1s, background 0.2s;
+    box-shadow: 3px 3px 0 var(--sombra-dura);
+    transition: transform 0.12s, box-shadow 0.12s, background-color 0.2s;
 }
 
 .botao-principal:hover {
-    background: var(--cor-primaria-destaque);
+    background: var(--primaria-forte);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--sombra-dura);
+}
+
+.botao-principal:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--sombra-dura);
+}
+
+/* Campo de prazo (calendário) */
+.campo-prazo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: var(--superficie-2);
+    border: 2px solid var(--linha);
+    border-radius: 12px;
+    color: var(--tinta-suave);
+    transition: border-color 0.2s;
+}
+
+.campo-prazo:focus-within {
+    border-color: var(--primaria);
+}
+
+.campo-prazo input[type="date"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Seletor de categoria (logos) */
+.grupo-categoria {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+}
+
+.seletor-categoria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.nome-categoria {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--tinta-suave);
+}
+
+.opcao-categoria {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    border: 2px solid var(--linha);
+    background: var(--superficie-2);
+    color: var(--cor-categoria);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.15s, background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.opcao-categoria input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.opcao-categoria:hover {
     transform: translateY(-2px);
 }
 
+.opcao-categoria:has(input:checked) {
+    background: var(--cor-categoria);
+    border-color: var(--borda);
+    color: #FFFFFF;
+    transform: translateY(-2px);
+}
+
+.opcao-categoria:has(input:focus-visible) {
+    outline: 3px solid var(--primaria);
+    outline-offset: 2px;
+}
+
+/* ==========================================================
+   Filtros (controle segmentado)
+   ========================================================== */
+.filtros {
+    position: relative;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 18px;
+    background: var(--superficie-2);
+    border: 2px solid var(--linha);
+    border-radius: 14px;
+}
+
+/* Fundo que desliza até o botão escolhido (posição e largura vêm do JS) */
+.indicador-filtro {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 0;
+    background: var(--tinta);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.indicador-filtro.pronto {
+    transition:
+        transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+        width 0.4s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+.botao-filtro {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 6px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--tinta-suave);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.botao-filtro:hover {
+    color: var(--tinta);
+}
+
+.botao-filtro.ativo {
+    color: var(--superficie);
+}
+
+.contagem {
+    min-width: 20px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--linha);
+    color: var(--tinta);
+    font-size: 0.72rem;
+    text-align: center;
+}
+
+.botao-filtro.ativo .contagem {
+    background: var(--primaria);
+    color: var(--texto-sobre-primaria);
+}
+
+/* ==========================================================
+   Lista de tarefas
+   ========================================================== */
 .lista-tarefas {
     list-style: none;
-    max-height: 280px;
+    max-height: 320px;
     overflow-y: auto;
+    padding: 2px 6px 2px 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--linha) transparent;
 }
 
 .item-tarefa {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    background: var(--cor-borda);
-    border-radius: 10px;
+    gap: 12px;
+    padding: 12px 12px 12px 16px;
     margin-bottom: 10px;
-    animation: aparecer 0.3s ease;
+    background: var(--superficie-2);
+    border: 2px solid var(--linha);
+    border-radius: 14px;
+    /* faixa lateral na cor da área da tarefa */
+    box-shadow: inset 5px 0 0 var(--cor-categoria);
+    transition: opacity 0.25s, border-color 0.2s;
 }
 
-.item-tarefa.concluido span {
-    text-decoration: line-through;
-    color: var(--cor-concluido);
+.item-tarefa:hover {
+    border-color: var(--tinta-suave);
 }
 
-.acoes-tarefa {
+.item-tarefa.nova {
+    animation: aparecer 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Botão circular de concluir */
+.botao-check {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    background: var(--superficie);
+    border: 2px solid var(--tinta-suave);
+    border-radius: 50%;
+    color: transparent;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.botao-check:hover {
+    border-color: var(--sucesso);
+    color: var(--sucesso);
+}
+
+.item-tarefa.concluido .botao-check {
+    background: var(--sucesso);
+    border-color: var(--sucesso);
+    color: #FFFFFF;
+    transform: scale(1.08);
+}
+
+.logo-categoria {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--cor-categoria);
+    color: #FFFFFF;
+    font-size: 0.85rem;
+}
+
+.conteudo-tarefa {
+    flex: 1;
+    min-width: 0;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.descricao-tarefa {
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.prazo-tarefa {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--linha);
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--tinta-suave);
+}
+
+.item-tarefa.atrasada .prazo-tarefa {
+    background: color-mix(in srgb, var(--perigo) 16%, transparent);
+    color: var(--perigo);
+}
+
+.item-tarefa.concluido {
+    opacity: 0.6;
+}
+
+.item-tarefa.concluido .descricao-tarefa {
+    text-decoration: line-through;
+    color: var(--tinta-suave);
 }
 
 .botao-acao {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
     background: none;
     border: none;
+    border-radius: 10px;
+    color: var(--tinta-suave);
+    font-size: 0.95rem;
     cursor: pointer;
-    font-size: 1rem;
-    color: var(--cor-texto);
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .botao-acao.excluir:hover {
-    color: var(--cor-perigo);
+    background: color-mix(in srgb, var(--perigo) 14%, transparent);
+    color: var(--perigo);
 }
 
-.rodape-aplicacao {
-    margin-top: 15px;
-    font-size: 0.85rem;
-    color: var(--cor-concluido);
+.lista-vazia {
+    padding: 28px 12px;
     text-align: center;
+    font-size: 0.95rem;
+    color: var(--tinta-suave);
+    border: 2px dashed var(--linha);
+    border-radius: 14px;
 }
 
 @keyframes aparecer {
     from {
-        opacity: 0; transform: translateY(10px);
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
     }
 
     to {
-        opacity: 1; transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================================
+   Janela de atualizações
+   ========================================================== */
+.dialogo {
+    margin: auto; /* o reset global (* { margin: 0 }) tira o centro padrão */
+    width: min(580px, calc(100% - 32px));
+    max-height: min(80vh, 680px);
+    padding: 0;
+    background: var(--superficie);
+    color: var(--tinta);
+    border: 2px solid var(--borda);
+    border-radius: 24px;
+    box-shadow: 8px 8px 0 var(--sombra-dura);
+    overflow: hidden;
+}
+
+.dialogo[open] {
+    display: flex;
+    flex-direction: column;
+    animation: aparecer 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dialogo::backdrop {
+    background: rgba(16, 16, 36, 0.55);
+}
+
+.dialogo-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 28px 18px;
+    border-bottom: 2px solid var(--linha);
+}
+
+.dialogo-cabecalho h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.dialogo-subtitulo {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    color: var(--tinta-suave);
+}
+
+.lista-atualizacoes {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 28px 28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--linha) transparent;
+}
+
+.atualizacao {
+    padding: 20px 0;
+    border-bottom: 2px dashed var(--linha);
+}
+
+.atualizacao:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.atualizacao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--fonte-titulo);
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.atualizacao-icone {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--primaria);
+    color: var(--texto-sobre-primaria);
+    font-size: 0.85rem;
+}
+
+.atualizacao-resumo {
+    margin: 8px 0 4px;
+    font-size: 0.92rem;
+    color: var(--tinta-suave);
+    line-height: 1.5;
+}
+
+.atualizacao-grupo {
+    margin-top: 14px;
+}
+
+.atualizacao-grupo h4 {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.atualizacao-grupo ul {
+    list-style: none;
+}
+
+.atualizacao-grupo li {
+    position: relative;
+    padding: 3px 0 3px 18px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.atualizacao-grupo li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.85em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primaria);
+}
+
+/* ==========================================================
+   Responsivo e acessibilidade
+   ========================================================== */
+@media (max-width: 480px) {
+    .cartao-aplicacao {
+        padding: 22px 18px;
+        box-shadow: 5px 5px 0 var(--sombra-dura);
+    }
+
+    .cabecalho-aplicacao h1 {
+        font-size: 1.8rem;
+    }
+
+    .botao-principal {
+        padding: 0 14px;
+    }
+
+    .dialogo-cabecalho {
+        padding: 20px 20px 16px;
+    }
+
+    .lista-atualizacoes {
+        padding: 4px 20px 24px;
+    }
+
+    .botao-filtro {
+        font-size: 0.78rem;
+    }
+
+    .contagem {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
     }
 }

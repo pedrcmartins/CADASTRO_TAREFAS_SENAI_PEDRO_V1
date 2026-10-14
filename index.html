@@ -4,34 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Painel de Tarefas</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="cartao-aplicacao">
+    <main class="cartao-aplicacao">
         <header class="cabecalho-aplicacao">
-            <h1>Minhas Tarefas</h1>
-            <button class="botao-icone" id="botao-alternar-tema">
-                <i class="fa-solid fa-moon"></i>
-            </button>
+            <div>
+                <h1>Minhas Tarefas</h1>
+                <p class="data-hoje" id="data-hoje"></p>
+            </div>
+            <div class="acoes-cabecalho">
+                <button class="botao-icone" id="botao-atualizacoes" title="Ver atualizações" aria-label="Ver atualizações">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
+                <button class="botao-icone" id="botao-alternar-tema" title="Alternar tema" aria-label="Alternar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
         </header>
 
+        <section class="progresso" aria-label="Progresso das tarefas">
+            <div class="progresso-texto">
+                <span id="texto-progresso">Sem tarefas ainda</span>
+                <strong id="porcentagem-progresso">0%</strong>
+            </div>
+            <div class="progresso-trilho">
+                <div class="progresso-barra" id="barra-progresso"></div>
+            </div>
+        </section>
+
         <div class="caixa-entrada">
-            <input type="text" id="campo-tarefa" placeholder="O que vamos fazer hoje?..." maxlength="40">
-            <button class="botao-principal" id="botao-adicionar">
-                <i class="fa-solid fa-plus"></i> Adicionar
-            </button>
+            <div class="linha-entrada">
+                <input type="text" id="campo-tarefa" placeholder="O que vamos fazer hoje?..." maxlength="40">
+                <button class="botao-principal" id="botao-adicionar">
+                    <i class="fa-solid fa-plus"></i> Adicionar
+                </button>
+            </div>
+
+            <div class="linha-opcoes">
+                <label class="campo-prazo" for="campo-prazo">
+                    <i class="fa-regular fa-calendar"></i>
+                    <input type="date" id="campo-prazo" title="Prazo da tarefa (opcional)">
+                </label>
+
+                <!-- Os logos de categoria são gerados via JavaScript
+                     a partir do objeto CATEGORIAS -->
+                <div class="grupo-categoria">
+                    <div class="seletor-categoria" id="seletor-categoria" role="radiogroup" aria-label="Área da tarefa"></div>
+                    <span class="nome-categoria" id="nome-categoria"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar tarefas">
+            <span class="indicador-filtro" id="indicador-filtro" aria-hidden="true"></span>
+            <button class="botao-filtro ativo" data-filtro="todas">Todas <span class="contagem" id="contagem-todas">0</span></button>
+            <button class="botao-filtro" data-filtro="pendentes">Pendentes <span class="contagem" id="contagem-pendentes">0</span></button>
+            <button class="botao-filtro" data-filtro="concluidas">Concluídas <span class="contagem" id="contagem-concluidas">0</span></button>
         </div>
 
         <ul class="lista-tarefas" id="lista-tarefas">
             <!-- As tarefas serão inseridas dinamicamente
                  via JavaScript -->
         </ul>
+    </main>
 
-        <footer class="rodape-aplicacao">
-            <span id="contador-tarefas">0 tarefas na lista</span>
-        </footer>
-    </div>
+    <!-- Janela com o histórico de atualizações (conteúdo gerado via JavaScript) -->
+    <dialog class="dialogo" id="dialogo-atualizacoes" aria-labelledby="titulo-atualizacoes">
+        <div class="dialogo-cabecalho">
+            <div>
+                <h2 id="titulo-atualizacoes">Atualizações</h2>
+                <p class="dialogo-subtitulo">Tudo o que mudou hoje, 14 de outubro de 2026</p>
+            </div>
+            <button class="botao-icone" id="botao-fechar-atualizacoes" title="Fechar" aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="lista-atualizacoes" id="lista-atualizacoes"></div>
+    </dialog>
 
     <script src="script.js"></script>
 </body>
